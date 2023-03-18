@@ -1,0 +1,65 @@
+//this code is used to display different numbers on a four digit 7-seg using the 74HC595 chip
+
+int latch = 4; //pin to latch
+int clock = 5; //clockpin
+int data = 3; //pin to pass the information
+int dPins[4] = {11, 10, 9, 8};  //pins that control the digits, the go in that order, 4-3-2-1
+//              12  13  A5 A4
+const byte digits[10] = {  //It indicates which pins have to be on and off to display each number
+B00111111,B00000110,B01011011,B01001111,B01100110,B01101101,B01111101,B0000111,B01111111,B01101111,};
+//0          1           2       3        4          5          6        7        8          9
+
+void setup() {
+pinMode(latch, OUTPUT); //connected to pin 4
+pinMode(clock, OUTPUT); //connected to pin 5
+pinMode(data, OUTPUT);  //connected to pin 3
+
+pinMode(11, OUTPUT); //Digit 4
+pinMode(10, OUTPUT); //Digit 3
+pinMode(9, OUTPUT);  //Digit 2
+pinMode(8, OUTPUT);  //Digit 1
+}
+
+
+void loop() {
+
+//First digit
+digitalWrite(11, HIGH);
+digitalWrite(10, HIGH);
+digitalWrite(9, HIGH);
+digitalWrite(8, LOW); 
+digitalWrite(latch, LOW);
+shiftOut(data, clock, MSBFIRST, digits[1]); //this shifts out the digit chosen in the digits array
+digitalWrite(latch, HIGH);
+delay(5);
+
+//Second digit
+digitalWrite(11, HIGH);
+digitalWrite(10, HIGH);
+digitalWrite(9, LOW);
+digitalWrite(8, HIGH);
+digitalWrite(latch, LOW);
+shiftOut(data, clock, MSBFIRST, digits[1]); //this shifts out the digit chosen in the digits array
+digitalWrite(latch, HIGH);
+delay(5);
+
+//Third digit
+digitalWrite(11, HIGH);
+digitalWrite(10, LOW);
+digitalWrite(9, HIGH);
+digitalWrite(8, HIGH);
+digitalWrite(latch, LOW);
+shiftOut(data, clock, MSBFIRST, digits[9]); //this shifts out the digit chosen in the digits array
+digitalWrite(latch, HIGH);
+delay(5);
+
+//Fourth digit
+digitalWrite(11, LOW);
+digitalWrite(10, HIGH);
+digitalWrite(9, HIGH);
+digitalWrite(8, HIGH);
+digitalWrite(latch, LOW);
+shiftOut(data, clock, MSBFIRST, digits[6]); //this shifts out the digit chosen in the digits array
+digitalWrite(latch, HIGH);
+delay(5);
+}
