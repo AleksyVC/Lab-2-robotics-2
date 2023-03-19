@@ -1,0 +1,57 @@
+//this code uses a class to display different digits on a 4 digit 7 segment
+
+class SevenSegmentDisplay { //this names the class
+
+private:
+int *pins; //defines the pins variable
+
+SevenSegmentDisplay() {}; //constructor
+
+public:
+
+SevenSegmentDisplay(int pins[7]) {   //public constructor
+this->pins = pins;
+}
+
+//this method defines the pins 2 to 8 as OUTPUTS
+void init() {
+for (int i = 0; i < 8; i++) {
+pinMode(pins[i], OUTPUT);
+}
+}
+
+//this method creates an array for each number and displays those numbers
+void display(int num) {
+int numbers[10][7] = {
+{1, 1, 1, 1, 1, 1, 0},
+{0, 1, 1, 0, 0, 0, 0},
+{1, 1, 0, 1, 1, 0, 1},
+{1, 1, 1, 1, 0, 0, 1},
+{0, 1, 1, 0, 0, 1, 1},
+{1, 0, 1, 1, 0, 1, 1},
+{1, 0, 1, 1, 1, 1, 1},
+{1, 1, 1, 0, 0, 0, 0},
+{1, 1, 1, 1, 1, 1, 1},
+{1, 1, 1, 1, 0, 1, 1}
+};
+
+for (int i = 0; i < 7; i++) {
+digitalWrite(pins[i], numbers[num][i]);
+}
+}
+};
+
+int my7pins[7]{2, 3, 4, 5, 6, 7, 8};
+SevenSegmentDisplay my7(my7pins);
+
+//this initializes the pins
+void setup() {
+my7.init();
+}
+//this loop displays the numbers 0 to 9 
+void loop() {
+for (int i = 0; i < 10; ++i) {
+my7.display(i);
+delay(1000);
+}
+}
