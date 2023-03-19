@@ -1,0 +1,42 @@
+//this code is written to detect if a psuh button is pressed or not 
+//and it was written wth a classto do so
+
+class PushButton {  //names the class Pushbutton
+private:
+int pin;
+bool state;
+bool last_state;
+
+public:
+PushButton(){};//contructor not being used
+PushButton(int pin) {  //constructor being used
+this->pin = pin;
+this->state = false;
+this->last_state = false;
+pinMode(pin, INPUT_PULLUP);
+}
+
+bool read() {  //The read method reads the current state of the button
+this->last_state = this->state;
+this->state = digitalRead(pin);
+return this->state;
+}
+
+bool is_pressed() {  //The is_pressed method checks whether the button is currently pressed
+return this->state && !this->last_state;
+}
+};
+
+int button_pin = 13;
+PushButton button(button_pin); //creates the "button" object
+
+void setup() {
+Serial.begin(9600);
+}
+
+void loop() {
+button.read();
+if (button.is_pressed()) {
+Serial.println("Button pressed!"); //prints if the button is not pressed
+}
+}
